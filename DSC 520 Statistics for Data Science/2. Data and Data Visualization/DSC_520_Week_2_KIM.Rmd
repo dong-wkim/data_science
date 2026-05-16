@@ -1,0 +1,211 @@
+---
+title: "DSC 520 Week 2 Exercise 2.1"
+author: "Dong Woon Kim"
+date: "2025-12-13"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+packages <- c(
+  "googledrive",
+  "googlesheets4",
+  "readxl",
+  "metafor",
+  "dplyr",
+  "meta",
+  "ggplot2",
+  "ggpubr",
+  "ggplotify",
+  "ggplot2",
+  "tidyverse",
+  "devtools",
+  "svglite",
+  "plotrix"
+)
+
+for (package in packages) {
+  if (!requireNamespace(package, quietly = TRUE))
+    install.packages(package, dependencies = TRUE)
+}
+
+lapply(packages, library, character.only = TRUE)
+
+```
+
+## 1. Bar graph showing product and the sum of sales for each.
+
+```{r barplot}
+
+sales <- read.csv(file = 'sales.csv')
+
+View(sales)
+
+# Bar graph showing product and the sum of sales for each.
+
+dfA <- filter(.data = sales, sales$Product == 'Product_A')
+dfB <- filter(.data = sales, sales$Product == 'Product_B')
+dfC <- filter(.data = sales, sales$Product == 'Product_C')
+dfD <- filter(.data = sales, sales$Product == 'Product_D')
+
+A <- sum(dfA$TotalSales)
+B <- sum(dfB$TotalSales)
+C <- sum(dfC$TotalSales)
+D <- sum(dfD$TotalSales)
+
+sales_by_product <- c(A, B, C, D)
+
+barplot(
+  sales_by_product,
+  main = "Total Sales by Product",
+  xlab = 'Product',
+  ylab = 'Total Sales',
+  names.arg = c('Product A', 'Product B', 'Product C', 'Product D')
+)
+```
+
+
+# 2. Pie chart showing sum of sales by region.
+
+```{r pie}
+
+help('pie')
+
+dfN <- filter(.data = sales, sales$Region == 'North')
+dfE <- filter(.data = sales, sales$Region == 'East')
+dfS <- filter(.data = sales, sales$Region == 'South')
+dfW <- filter(.data = sales, sales$Region == 'West')
+
+N <- sum(dfN$TotalSales)
+E <- sum(dfE$TotalSales)
+S <- sum(dfS$TotalSales)
+W <- sum(dfW$TotalSales)
+
+sales_by_region <- c(N, E, S, W)
+names(sales_by_region) = c('North', 'East', 'South', 'West')
+
+pie(
+  x = sales_by_region,
+  labels = names(sales_by_region),
+  col = rainbow(4),
+  main = "Total Sales by Region"
+)
+```
+
+# 3. Box plots for average sales by region and average quantities by region.
+
+```{r boxplot}
+
+boxplot(
+  formula = TotalSales ~ Region,
+  data = sales,
+  main = "Average Sales by Region",
+  ylab = "Sales ($)"
+)
+
+boxplot(
+  formula = Quantity ~ Region,
+  data = sales,
+  main = "Average Quantities by Region",
+  ylab = "Quantity"
+)
+```
+
+
+# 4. Histogram of the count of orders by product.
+
+```{r histogram}
+
+help(hist)
+
+hist(
+  x = dfA$Quantity,
+  main = 'Order Counts by Product A',
+  breaks = 'Sturges',
+  xlab = 'Quantity Per Order'
+)
+
+hist(
+  x = dfB$Quantity,
+  main = 'Order Counts by Product B',
+  breaks = 'Sturges',
+  xlab = 'Quantity Per Order'
+)
+
+hist(
+  x = dfC$Quantity,
+  main = 'Order Counts by Product C',
+  breaks = 'Sturges',
+  xlab = 'Quantity Per Order'
+)
+
+hist(
+  x = dfD$Quantity,
+  main = 'Order Counts by Product D',
+  breaks = 'Sturges',
+  xlab = 'Quantity Per Order'
+)
+```
+
+
+# 5. A radial plot showing total sales (for all products) by month.
+
+```{r}
+install.packages('stringr')
+library(stringr)
+
+toString(sales$OrderDate)
+sales$month <- str_extract(sales$OrderDate, regex("^(\\d+)"))
+View(sales)
+
+as.integer(sales$month)
+
+Jan <- filter(.data = sales, sales$month == 1)
+Feb <- filter(.data = sales, sales$month == 2)
+Mar <- filter(.data = sales, sales$month == 3)
+Apr <- filter(.data = sales, sales$month == 4)
+May <- filter(.data = sales, sales$month == 5)
+Jun <- filter(.data = sales, sales$month == 6)
+Jul <- filter(.data = sales, sales$month == 7)
+Aug <- filter(.data = sales, sales$month == 8)
+Sep <- filter(.data = sales, sales$month == 9)
+Oct <- filter(.data = sales, sales$month == 10)
+Nov <- filter(.data = sales, sales$month == 11)
+Dec <- filter(.data = sales, sales$month == 12)
+
+months <- c(Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec)
+
+salesJan <- sum(Jan$TotalSales)
+salesFeb <- sum(Feb$TotalSales)
+salesMar <- sum(Mar$TotalSales)
+salesApr <- sum(Apr$TotalSales)
+salesMay <- sum(May$TotalSales)
+salesJun <- sum(Jun$TotalSales)
+salesJul <- sum(Jul$TotalSales)
+salesAug <- sum(Aug$TotalSales)
+salesSep <- sum(Sep$TotalSales)
+salesOct <- sum(Oct$TotalSales)
+salesNov <- sum(Nov$TotalSales)
+salesDec <- sum(Dec$TotalSales)
+
+df <- rbind(salesJan,salesFeb,salesMar,salesApr,salesMay,salesJun,salesJul,salesAug,salesSep,salesOct,salesNov,salesDec)
+
+View(df)
+
+radial.plot(
+  lengths = df,
+  radial.pos = seq(0,22*pi/12, length = 12),
+  labels = c('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'),
+  xlab = '',
+  main = 'Total Sales by Month'
+)
+```
+
+
+
+
+
+
+
+

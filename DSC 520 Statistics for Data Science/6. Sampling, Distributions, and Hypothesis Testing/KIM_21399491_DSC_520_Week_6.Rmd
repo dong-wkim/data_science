@@ -1,0 +1,160 @@
+---
+title: "KIM_DSC_520_Week_6_Exercise_2"
+author: "Dong Woon Kim"
+date: "2025-07-13"
+output:
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r install packages, echo=TRUE, include=FALSE, results='hide'}
+setwd("~/R")
+packages <- c("rmarkdown", "readr","ggplot2","scales","cowplot")
+lapply(packages,library, character.only = TRUE)
+
+```
+## Part I
+Given that information, complete the following two examples. You’ll need R code along with Markdown.
+An experiment is executed to determine if spending too much time on social media hurts cognitive ability. 
+Assuming the null hypothesis is that using social does not result in lower cognitive ability, and alpha is .05:
+1. What is the alternative hypothesis?
+2. What is the p-value?
+3. Is the null hypothesis proven or disproven and why?
+4. Is this a one-sided or two-sided test?
+```{r}
+
+Social <- c("Y","N")
+Lower <- c(1,118)
+Higher <- c(120,2)
+
+df <- cbind(Social, Lower, Higher)
+View(df)
+
+t.test(Lower,Higher)
+# 1. the alternative hypothesis is that using social media does lower cognitive ability.
+# 2. the p-value is 0.9872.
+# 3. the null hypothesis is not rejected because p-value is not lower than the alpha value of 0.05. Therefore it cannot be proven whether or not social media lowers cognitive ability.
+# 4. two-sided because it has too tested possiblities.
+
+```
+### Exercise 1 (Chapter 9)
+
+The goal of this exercise is to continue exploring the LLN. In particular, you will gain deeper insight into why sample means have less variability than individual samples. The experiment involves manipulating the noise within each sample and comparing the average variance within-sample vs. the variance across sample means.
+Each sample in the experiment comprises 200 data points randomly drawn from a normal distribution as $x \approx X(0, \tau^2)$, where $\tau$ is a variance term that ranges from .1 to 10 in 40 steps, with one value of 72 in each iteration of a for-loop. For each iteration, compute and store the mean and variance of the sample. To generate a sample estimate distribution, repeat this procedure 20 times for each 72.
+
+```{r}
+
+tau2 <- seq(0.1,10,length.out=40)
+l <- length(tau2)
+n <- 200
+k <- 20
+
+matrix.m = matrix(0,nrow=k,ncol=l)
+matrix.v = matrix(0,nrow=k,ncol=l)
+
+for (i in seq(l)) {
+  for (j in seq(k)) {
+    data <- rnorm(n,0,sqrt(tau2[i]))
+    matrix.m[j,i] <- mean(data)
+    matrix.v[j,i] <- var(data)
+  }
+}
+
+print(matrix.m,main="matrix of means")
+print(matrix.v,main="matrix of variances")
+
+```
+
+
+```{r}
+
+coin <- c(1,0) # numerical representation of heads and tails outcomes
+tosses <- 100 # simulation of 100 tosses
+
+
+heads <- rep(1,95) 
+tails <- rep(0,5)
+coin <- c(heads,tails)
+sample <- sample(coin,tosses,replace=TRUE)
+t.test(seq_along(coin),coin)
+
+# 1. the alternative hypothesis is that the coin is not a fair coin
+# 2. the p-value is 2.2 x 10^-16
+# 3. the null hypothesis is rejected because the p-value is less than the alpha of 0.5. Therefore the alternative hypothesis is "proven"
+# 4. this is a two-sided test because there are two possibilities.
+
+```
+
+## Part II
+I hard-coded Figure 10.5 to show $p < 0.05$. **Modify the code for this figure so that you can specify any desired p-value**. Visualizing the significance regions will help you understand the relationship between test statistics, p-values, and statistical significance. (Tip: **copy/paste the code into a different cell to preserve the original code**.)
+
+```{r}
+
+library(ggplot2)
+library(cowplot)
+library(scales)
+
+d.Gaussian.dist <- function(p = 0.05) {
+  # z-values (test statistic range)
+  zvals <- seq(-3, 3, length=1001)
+  zpdf <- dnorm(zvals)
+  
+  # Data for distribution plot
+  df1 <- data.frame(x = zvals, y = zpdf)
+  
+  # Index of zero (mean)
+  mn_idx <- which.min(zvals^2)
+  
+  # Two-tailed p-values for each z
+  pvalsL <- pnorm(zvals[1:mn_idx])
+  pvalsR <- 1 - pnorm(zvals[(mn_idx+1):length(zvals)])
+  pvals2 <- 2 * c(pvalsL, pvalsR)
+  
+  # Data for p-value plot
+  df2 <- data.frame(x = zvals, y = pvals2)
+  
+  # Quantiles for the two-tailed p-value (critical z-values)
+  z_lower <- qnorm(p / 2)
+  z_upper <- qnorm(1 - p / 2)
+  
+  # Helper function to find closest index for z-value
+  closest_index <- function(vals, target) {
+    which.min((vals - target)^2)
+  }
+  
+  idx_lower <- closest_index(zvals, z_lower)
+  idx_upper <- closest_index(zvals, z_upper)
+  
+  # Panel A: Normal distribution with shaded significant tails
+  fig_A <- ggplot(df1, aes(x = x, y = y)) +
+    geom_line(color = "black") +
+    geom_ribbon(data = subset(df1, x <= zvals[idx_lower]), aes(ymin = 0, ymax = y), alpha = 0.4) +
+    geom_ribbon(data = subset(df1, x >= zvals[idx_upper]), aes(ymin = 0, ymax = y), alpha = 0.4) +
+    geom_vline(xintercept = c(z_lower, z_upper), color = "darkgray", linetype = "dotted", linewidth = 0.75) +
+    scale_x_continuous(limits = range(zvals), expand = c(0, 0)) +
+    scale_y_continuous(limits = c(0, 0.42), breaks = NULL, expand = c(0, 0)) +
+    labs(x = "", y = expression(paste("Prob. given ", "H"[0]))) +
+    annotate("text", x = 0, y = 0.3, label = "Not Significant") +
+    annotate("segment", x = z_lower - 0.1, xend = z_lower + 0.15, y = 0.12, yend = 0.05,
+             arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+    annotate("text", x = z_lower - 0.15, y = 0.15, label = "Significant") +
+    annotate("segment", x = z_upper + 0.1, xend = z_upper - 0.15, y = 0.12, yend = 0.05,
+             arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+    annotate("text", x = z_upper + 0.15, y = 0.15, label = "Significant") +
+    theme_classic() +
+    ggtitle(expression(paste(bold("A)  "), "Test statistic distribution if ", "H"[0], " were true")))
+  
+  fig <- fig_A
+  
+  return(fig)
+}
+
+plot <- d.Gaussian.dist(0.05)
+plot
+
+```
+
+

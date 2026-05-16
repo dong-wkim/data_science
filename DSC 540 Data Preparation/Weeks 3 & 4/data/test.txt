@@ -1,0 +1,9 @@
+1. Load the necessary libraries.
+2. Read the adult income dataset from the following URL: https://packt.live/2N9lRUU.
+3. Create a script that will read a text file line by line.
+4. Add a name of Income for the response variable to the dataset.
+5. Find the missing values.
+6. Create a DataFrame with only age, education, and occupation by
+using subsetting.
+7. Plot a histogram of age with a bin size of 20.
+8. Create a function to strip the whitespace characters

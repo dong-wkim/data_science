@@ -1,0 +1,113 @@
+---
+title: DSC 520 Week 8 Exercise 1
+subtitle: Correlation
+author: "Dong Woon Kim"
+date: "2025-07-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r install packages}
+
+packages <- c(
+  "lsa",
+  "pheatmap"
+)
+
+lapply(packages,install.packages, character.only = TRUE)
+lapply(packages,library, character.only = TRUE)
+```
+
+```{r import dataset}
+df <- read.csv("G:/My Drive/3. Informatyki (MSDS)/Data Science/R/dsc_520_week_8_correlation_confidence_intervals/travel_insurance.csv")
+View(df)
+```
+
+
+Compute the correlation coefficient between any two variables.
+
+The correlation coefficient between Duration and Net Sales is 0.429.
+The correlation coefficient between Duration and Commission is 0.345.
+The correlation coefficient between Net Sales and Commission is 0.651.
+
+```{r}
+df <- read.csv("G:/My Drive/3. Informatyki (MSDS)/Data Science/R/dsc_520_week_8_correlation_confidence_intervals/travel_insurance.csv")
+duration <- df$Duration
+sales <- df$Net.Sales
+df$Amount <- df$Commision..in.value. # not necessary but cleaner column header
+amount <- df$Amount
+View(df)
+
+a <- duration
+b <- sales
+c <- amount
+
+r_ab <- cor(a,b)
+r_ac <- cor(a,c)
+r_bc <- cor(b,c)
+
+r_ab
+r_ac
+r_bc
+```
+
+Compute the Pearson, Spearman, and Kendall correlations between any two variables.
+
+```{r}
+# Pearson correlation coefficient
+r_ab.p <- cor(a,b, method="pearson")
+r_ac.p <- cor(a,c, method="pearson")
+r_bc.p <- cor(b,c, method="pearson")
+
+# Spearman correlation coefficient
+r_ab.s <- cor(a,b, method="spearman")
+r_ac.s <- cor(a,c, method="spearman")
+r_bc.s <- cor(b,c, method="spearman")
+
+# Kendall correlation coefficient
+r_ab.k <- cor(a,b, method="kendall")
+# r_ac.k <- cor(a,c, method="kendall")
+r_bc.k <- cor(b,c, method="kendall")
+```
+
+Create a correlation matrix for all variables.
+
+```{r}
+data <- data.frame(a,b,c)
+cor.matrix <- cor(data)
+print(cor.matrix)
+```
+
+Compute the covariance between any two variables.
+
+The covariance between Duration and Net Sales is 2134.2.
+The covariance between Duration and Commission is 695.0.
+The covariance between Net Sales and Commission is 630.1.
+
+
+```{r}
+
+cov(a,b)
+cov(a,c)
+cov(b,c)
+
+```
+
+Compute the Cosine Similarity between the same two variables as you use for #2. Plot the two together.
+
+
+```{r}
+
+data.matrix <- cbind(a,b,c)
+dm.cos <- cosine(data.matrix)
+colnames(dm.cos) <- c("Duration", "Net Sales", "Commission")
+pheatmap(dm.cos,
+         main = "",
+         display_numbers = TRUE)
+# ?pheatmap()
+
+```
+

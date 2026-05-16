@@ -1,0 +1,53 @@
+---
+title: "KIM_DSC_520_Week_6_Exercise_1"
+author: "Dong Woon Kim"
+date: "2025-07-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Within RStudio, answer the following questions using a combination of R and Markdown. The Markdown is for describing what you’re doing as always.
+A six-sided die is rolled repeatedly. What is the expected value average as the die is rolled more and more? The expected value for a single roll is 1+2+3+4+5+6 / 6 = 3.5. What’s wrong with the answer, just in logical terms? Create this in R (i.e., simulate many rolls and visualize the results).
+
+```{r}
+
+x <- c(1,2,3,4,5,6) # vector of events
+n <- length(x) # sample space
+p <- 1/n # probability
+
+expected_value <- sum(p*x) # expected value calculation
+expected_value
+
+
+rolls <- 1000 # number of simulated rolls
+sample <- sample(x,rolls,replace=TRUE) # simulation of 1000 rolls
+sample
+
+simulated_average <- cumsum(sample)/seq_along(sample) # average value of 1000 simulated rolls
+plot(simulated_average) # visualization of cumulative expected average value over 1000 simulations
+abline(h=3.5)
+
+```
+
+A box contains 30 red balls and 15 green balls. A ball is drawn from the box, and the color is written down. The ball is then returned to the box, and the process is repeated. What is the expected proportion of red balls drawn as the number of draws increases? Create this in R (i.e., simulate the draws from the box and visualize the results).
+
+```{r}
+red <- rep(1,30)
+green <- rep(0,15)
+box <- c(red,green)
+n <- nrow(box)
+30/45
+expected_value <- 
+sample_simulation <- sample(box,1000,replace=TRUE)
+simulation_value <- cumsum(sample_simulation) / seq_along(sample_simulation)
+
+plot(simulation_value, ylim=c(0,1), yaxt="n", ylab="probability of red",xlab="number of simulations")
+axis(2, at=1, "Red")
+axis(2, at=0, "Green")
+axis(2, at=0.6667, 0.6667)
+abline(h=0.6667)
+```
+

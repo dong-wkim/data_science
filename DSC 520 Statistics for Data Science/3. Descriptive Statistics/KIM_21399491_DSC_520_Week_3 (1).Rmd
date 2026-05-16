@@ -1,0 +1,225 @@
+---
+title: "DSC_520_week_3_exercise"
+author: "Dong Woon Kim"
+date: "2025-06-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+# install packages
+```{r}
+install.packages("rmarkdown")
+install.packages("readr")
+```
+
+# load packages
+```{r}
+library(rmarkdown)
+library(readr)
+```
+
+# Week 3 Exercise
+
+## 1. Show the distributions of values visually. Explain, in comments, what those distributions mean statistically. Be thorough.
+
+```{r output=FALSE}
+sales <- read.csv("~/R/sales_data_sample.csv")
+
+# Load data frames
+
+df.quantity <- sales$Quantity
+df.price <- sales$UnitPrice
+df.sales <- sales$TotalSales
+
+# Calculate means
+
+mean.quantity <- mean(df.quantity)
+mean.price <- mean(df.price)
+mean.sales <- mean(df.sales)
+
+# Calculate standard deviations
+
+sd.quantity <- sd(df.quantity)
+sd.price <- sd(df.price)
+sd.sales <- sd(df.sales)
+
+# Plot normal distribution curve of Total Sales column values
+
+x <- seq(min(df.sales), max(df.sales), length=100)
+y <- dnorm(x, mean=mean.sales, sd=sd.sales)
+plot(x, y, type="l",lwd=1)
+lines(x, y, col="blue", lwd = 1)
+
+# Another way to do the same thing
+
+hist(df.sales, prob=TRUE, main = "Total Sales", xlab = "Total Sales", ylab = "Density")
+lines(density(df.sales), col="red")
+
+# Comments: the distribution curves show that the values are left skewed, meaning that most of the values fall below the mean of the distribution of values (to the left of the mean). Left- or right-skewed distribution curves suggest that the distribution of values is not normal, and thus is non-parametric. Therefore, if this were a sample set of data to be used for statistical testing, non-parametric statistical tests must be used for statistical testing.
+```
+  
+# 2. Show the values of central tendency, both numerically and visually. 
+
+## Unit Price Analysis
+
+```{r}
+
+# Plot normal distribution curve of Unit Price column values
+
+x <- seq(min(df.price), max(df.price), length=100)
+y <- dnorm(x, mean=mean.price, sd=sd.price)
+plot(x, y, type="l",lwd=1)
+lines(x, y, col="blue", lwd = 1)
+
+# Another way to do the same thing
+
+hist(df.price, prob=TRUE, main = "Unit Price", xlab = "Price", ylab = "Density")
+lines(density(df.price), col="red")
+
+summary(df.price)
+mean.price
+sd.price
+```
+
+## Quantity Analysis
+
+```{r}
+# Plot normal distribution curve of Quantity column values
+
+x <- seq(min(df.quantity), max(df.quantity), length=100)
+y <- dnorm(x, mean=mean.quantity, sd=sd.quantity)
+plot(x, y, type="l",lwd=1)
+lines(x, y, col="blue", lwd = 1)
+
+# Another way to do the same thing
+
+hist(df.quantity, prob=TRUE, main = "Total Sales", xlab = "Total Sales", ylab = "Density")
+lines(density(df.quantity), col="red")
+
+summary(df.quantity)
+mean.quantity
+sd.quantity
+
+summary(df.sales)
+sd(df.sales)
+```
+
+## 3. Interpret those values in your own words in Markdown.
+
+
+The mean total sales value is \$409.05 with a standard deviation of \$402.01. 
+
+The mean unit price is \$52.41 with a standard deviation of \$28.69, with a bi-modal distribution around the sample mean. This means that the distribution of unit price values may not be normally distributed.
+
+The mean quantity of products order with each individual order is 9.59 with a standard deviation of 5.66. The distribution of values is centered around the mean without skew and bi-modal peaks, resembling a normally distribution curve. 
+
+
+  
+## 4. Show the measures of dispersion, visually and numerically (where appropriate). Interpret those values in Markdown.
+
+```{r}
+df.price
+summary.price <- summary(df.price)
+summary.price
+range.price <- max(df.price) - min(df.price)
+range.price
+var.price = sd.price^2
+var.price
+iqr.price = summary.price[5] - summary.price[2]
+iqr.price
+
+df.sales
+range.sales <- max(df.sales) - min(df.sales)
+range.sales
+var.sales = sd.sales^2
+var.sales
+iqr.sales = summary.sales[5] - summary.sales[2]
+iqr.sales
+
+
+df.quantity
+range.quantity <- max(df.quantity) - min(df.quantity)
+range.quantity
+var.quantity = sd.quantity^2
+var.quantity
+iqr.quantity = summary.quantity[5] - summary.quantity[2]
+iqr.quantity
+
+The ranges (max-min) for unit price, total sales, and quantity are 143.1, 1886.52, and 18, respectively. The variances are 823.24, 16108.2, and 32.09. 
+
+```
+
+## 5. Visually depict the Interquartile range. Interpret the IQR for the dataset (in Markdown).
+
+```{r}
+
+box.price <- boxplot(df.price, ylab = "Price ($)")
+box.sales <- boxplot(df.sales, ylab = "Total Sales")
+box.quantity <- boxplot(df.quantity, ylab = "Quantity")
+
+box.price
+box.sales
+box.quantity
+```
+
+
+## 6. Create the statistics moments for the dataset. 
+
+```{r}
+
+# custom function to approximate skewness
+
+skew <- function(df) {
+  x <- mean(df)
+  y <- median(df)
+  z <- sd(df)
+  skew <- 3*(x-y)/z
+  return(skew)
+}
+
+# custom function to calculate kurtosis
+
+kurtosis <- function(df) {
+  x <- mean(df)
+  y <- length(df)
+  z <- sd(df)
+  
+  kurtosis = (sum((df-x)^4)/y)/(z^4)
+  return(kurtosis)
+}
+
+
+# Total sales statistics moments
+
+mean.sales
+var.sales
+skew.sales <- skew(df.sales)
+skew.sales
+kurtosis.sales <- kurtosis(df.sales)
+kurtosis.sales
+
+# Unit price statistics moments
+
+mean.price
+var.price
+skew.price <- skew(df.price)
+skew.price
+kurtosis.price <- kurtosis(df.price)
+kurtosis.price
+
+# Quantity statistics moments
+
+mean.quantity
+var.quantity
+skew.quantity <- skew(df.quantity)
+skew.quantity
+kurtosis.quantity <- kurtosis(df.quantity)
+kurtosis.quantity
+
+```
+## 7. Experiment with histogram binning for the categorical data in R. This is open-ended intentionally because this dataset isn’t ideal for binning, but I want you to build something using binning just to see how it works.
+```{r}
+
+```

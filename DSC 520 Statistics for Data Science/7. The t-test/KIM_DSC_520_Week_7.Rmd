@@ -1,0 +1,115 @@
+---
+title: "KIM_DSC_520_Week_7"
+author: "Dong Woon Kim"
+date: "2025-07-20"
+output: 
+  html_document: 
+    toc: true
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, results='hide', message=FALSE, warning=FALSE)
+setwd("~/R")
+packages.dkim <- c("rmarkdown", "readr","ggplot2","scales","cowplot","car")
+lapply(packages.dkim,library, character.only = TRUE)
+# look up how to include the install packages and load libraries function as a sort of "pre-amble" R chunk to every new R markdown file 
+```
+A researcher hypothesizes that kids watching TV will result in an increase in the number of pieces of candy corn eaten. The kids are subjected to 5 hours of television. The number of candy corn candies consumed during a 10-minute period is counted both with and without TV. Compute the appropriate t-test for the data provided below.
+
+| # | With TV | Without TV |
+|:---:|:---:|:---:|
+| 1 | 12 | 8  |
+| 2 | 7 | 7 |
+| 3 | 3 | 4 |
+| 4 | 11 | 14 |
+| 5 | 8 | 6 |
+| 6 | 5 | 7 |
+| 7 | 14 | 12 |
+| 8 | 7 | 5 |
+| 9 | 9 | 5 |
+| 10 | 10 | 8 |
+
+**Answer the following questions:**
+
+
+```{r }
+
+# dependent variables
+## no. candy corns eaten with TV = A
+## no. candy corns eaten without TV = B
+
+A <- c(12,7,3,11,8,5,14,7,9,10)
+B <- c(8,7,4,14,6,7,12,5,5,8)
+exp <- seq_along(A)
+
+df <- cbind(exp, A, B)
+
+View(df)
+
+```
+**What is your computed answer for the following, based on the date in the table above?**
+
+| Variable | with TV | without TV |
+|:--:|:--:|:--:|
+| Mean | 8.6 | 7.6 |
+| Standard deviation | 3.3 | 3.2 |
+| Variance | 10.9 | 10.4 |
+
+```{r}
+# Mean = mean
+# S = sd
+# S2 = var
+
+A.mean <- mean(A)
+A.sd <- sd(A)
+A.var <- A.sd^2
+
+A.mean
+A.sd
+A.var
+
+B.mean <- mean(B)
+B.sd <- sd(B)
+B.var <- sd(B)^2
+
+B.mean
+B.sd
+B.var
+```
+
+**What is your computed t-test answer?**
+
+- t = 0.69
+- degrees of freedom (df) = 18
+- p-value = 0.50
+
+```{r}
+t.test(A,B, var= TRUE)
+```
+
+**What is the null hypothesis in this study?**
+
+The null hypothesis is that the difference between the mean number of candy corns eaten with TV and without TV will be equal to zero. 
+
+$$\lvert \mu_A - \mu_B \rvert = 0 \\ \ \\ where \ \mu = mean \\ A = with \ TV \\ B = without \ TV $$
+
+**What is the alternate hypothesis?**
+
+The alternate hypothesis is that the difference between the mean number of candy corns eaten with TV and without TV will not be equal to zero. 
+
+$$\lvert \mu_A - \mu_B \rvert \neq 0 \\ \ \\ where \ \mu = mean \\ A = with \ TV \\ B = without \ TV$$
+**What probability level did you choose and why?**
+
+I set alpha as 0.05 with a probability level of 0.95 for two-tailed t-test because it is conventional practice in statistics, particularly in the setting of t-tests that compare two groups with parametric sets of data. 
+
+**What are your degrees of freedom?**
+
+df = 18 (N-2)
+
+**Is there a significant difference between the two testing conditions? Interpret your answer.**
+
+There is not, because p > 0.05 (p = 0.50). Which means that if there were truly no difference between the number of candy corns eaten whether TV watching or not, there is around 50% probability, that the difference would equal 1. Therefore, since the difference we observed was 1.0, and alpha was set to be 0.05, it cannot be disproven that the difference we observed did not occur by mere chance. Another 20 test subjects have the potential to show 1.0 difference with 50% probability.
+
+
+
+```
+

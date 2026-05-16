@@ -1,0 +1,90 @@
+body {
+	--fsAddBuffer: 22px;
+}
+[id='worldometers_leaderboard_atf'],
+[id='worldometers_siderail_right'],
+[id='worldometers_bottom'],
+[id='worldometers_sticky_pushdown-pushdown-cls'],
+[id='worldometers_728x90_incontent_4'],
+[id='worldometers_728x90_incontent_3'],
+[id='worldometers_728x90_incontent_2'],
+[id='worldometers_728x90_incontent_1'],
+[id='worldometers_siderail_left'],
+[id='worldometers_dynamic_IAI'],
+[id='worldometers_flying_carpet'] {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	min-height: calc(var(--height) + var(--fsAddBuffer));
+	height: calc(var(--height) + var(--fsAddBuffer));
+	width: 100%;
+}
+[id='worldometers_728x90_incontent_1'] {
+		--height: 250px;
+}
+[id='worldometers_728x90_incontent_2'] {
+		--height: 250px;
+}
+[id='worldometers_728x90_incontent_3'] {
+		--height: 250px;
+}
+[id='worldometers_728x90_incontent_4'] {
+		--height: 280px;
+}
+[id='worldometers_bottom'] {
+		--height: 280px;
+}
+[id='worldometers_dynamic_IAI'] {
+		--height: 280px;
+}
+[id='worldometers_flying_carpet'] {
+		--height: 600px;
+}
+[id='worldometers_leaderboard_atf'] {
+		--height: 400px;
+}
+[id='worldometers_siderail_left'] {
+		--height: 600px;
+}
+[id='worldometers_siderail_right'] {
+		--height: 600px;
+}
+[id='worldometers_sticky_pushdown-pushdown-cls'] {
+		--height: 100px;
+}
+@media only screen and (min-width: 768px) {
+	[id='worldometers_728x90_incontent_1'] {
+		--height: 90px;
+	}
+	[id='worldometers_728x90_incontent_2'] {
+		--height: 90px;
+	}
+	[id='worldometers_728x90_incontent_3'] {
+		--height: 90px;
+	}
+	[id='worldometers_728x90_incontent_4'] {
+		--height: 90px;
+	}
+	[id='worldometers_bottom'] {
+		--height: 280px;
+	}
+	[id='worldometers_dynamic_IAI'] {
+		--height: 280px;
+	}
+	[id='worldometers_flying_carpet'] {
+		display: none; 
+	}
+	[id='worldometers_leaderboard_atf'] {
+		--height: 280px;
+	}
+	[id='worldometers_siderail_left'] {
+		--height: 600px;
+	}
+	[id='worldometers_siderail_right'] {
+		--height: 600px;
+	}
+	[id='worldometers_sticky_pushdown-pushdown-cls'] {
+		--height: 100px;
+	}
+}

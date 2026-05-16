@@ -1,0 +1,19 @@
+
+
+    graph TD;
+
+    A["`**records** (*n* = 1000)`"];
+    B["`null (*n* = 0)`"];
+    C["`non-null (*n* = 1000)`"];
+    D["`non-duplicates (*n* = 1000)`"];
+    E["`duplicates (*n* = 0)`"];
+    F["`duplicates kept (*n* = 0)`"];
+    G["`duplicates removed (*n* = 0)`"];
+    H["`unique (*n* = 1000)`"];
+    I["`deduplicated (*n* = 1000)`"];
+
+    A --> B & C;
+    C --> D & E;
+    E --> F & G;
+    D & F --> H
+    B & H --> I

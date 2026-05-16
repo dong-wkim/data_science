@@ -1,0 +1,112 @@
+---
+title: DSC 520 Week 5 Exercise
+author: Dong Woon Kim
+date: 07/06/2025
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, results='hide')
+```
+
+In Markdown at the start of your .r file, describe probability theory.
+
+**Probability theory** is a branch of mathematics that quantifies the possibility of an action or process that leads to one or more specific sets of outcomes, known as an event, over all possible outcomes, known as a sample space[^1].
+
+How many different license plates can be made from six digits?
+
+```{r}
+
+license_plate <- 10^6 # each digit has 10 possibilities, sequentially over 6 digits is 10^6
+license_plate
+```
+
+The total number of different license plates is 1,000,000.
+
+When flipping a coin, what is the probability you will get heads three times in a row? 
+
+```{r output=TRUE}
+outcomes <- c("heads","tails")
+total_outcomes <- length(outcomes)
+heads <- length(outcomes[outcomes == "heads"])
+probability <- heads / total_outcomes
+heads.3times = probability^3
+heads.3times
+```
+
+The probability of flipping heads on a 2-sided coin, three times in a row is 0.125.
+
+Create a visualization of this. There are code examples in the book’s GitHub.
+
+```{r}
+values <- c(12.5, 87.5)
+labels <- 
+
+pie.plot <- pie(values, labels = c("12.5% chance of event", "87.5% chance of null event"), main = "Probability of Heads 3 times in a row", col = c("lightblue","grey"))
+pie.plot
+
+```
+
+Given a standard 52 card deck of cards, what is the probability you’ll randomly draw an Ace of Spades and then Two of Hearts in a row?
+
+```{r}
+card <- length(c("A","Q","J",10,9,8,7,6,5,4,3,2,1))
+suit <- length(c("Spades","Hearts","Diamonds","Clubs"))
+outcomes <- card * suit
+
+probability <- (1/outcomes) * (1/(outcomes-1))
+probability
+
+```
+
+The probability of drawing a specific card, then another specific card, assuming the card from the first pull does not re-enter the deck, would be 0.0038. 
+
+Given two fair dice are rolled where each of the 36 possible outcomes is equally likely. Knowing that the first die shows a 6, what is the probability that the sum of the two dice equals 9?
+
+```{r}
+
+probability <- 1/6
+probability
+
+```
+The probability of rolling a 3 in a 6-sided die is 0.17.
+
+You want to invest, and you have a 30% chance of making $70,000 and 70% chance of losing $ 40,000. Should you invest? Explain.
+
+```{r}
+prob.profit <- .3
+profit <- 70000
+prob.loss <- .7
+loss <- 40000
+
+
+ev <-  (prob.profit * profit) - (prob.loss * loss)
+ev
+
+
+```
+
+Expected value = -$7,000
+
+The expected value is below zero, therefore, no this would not be a wise investment.
+
+A $2 lottery ticket offers a grand prize of $200,000; 5 losers are winners prizes each pay $1000; 15 third-place prizes each pay $300; and 25 fourth-place prizes each pay $10. Find the expected value of entering this contest if 5 million tickets are sold.
+
+```{r}
+
+a <- 200000 * (1/5000000)
+b <- 1000 * (5/5000000)
+c <- 300 * (15/5000000)
+d <- 10 * (25/5000000)
+
+e <- 2 *((5000000 - (25+15+5+1))/5000000)
+
+ev <- sum(a,b,c,d) - e
+ev
+
+```
+
+Expected value = -$1.96.
+
+
+**References**
+
+[^1]: Wikipedia contributors. (2024, June 26). Probability theory. Wikipedia. https://en.wikipedia.org/wiki/Probability_theory

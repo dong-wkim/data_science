@@ -1,0 +1,19 @@
+
+
+    graph TD;
+
+    A["`**records** (*n* = 3)`"];
+    B["`null (*n* = 0)`"];
+    C["`non-null (*n* = 3)`"];
+    D["`non-duplicates (*n* = 1)`"];
+    E["`duplicates (*n* = 2)`"];
+    F["`duplicates kept (*n* = 1)`"];
+    G["`duplicates removed (*n* = 1)`"];
+    H["`unique (*n* = 2)`"];
+    I["`deduplicated (*n* = 2)`"];
+
+    A --> B & C;
+    C --> D & E;
+    E --> F & G;
+    D & F --> H
+    B & H --> I

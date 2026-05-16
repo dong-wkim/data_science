@@ -1,0 +1,65 @@
+---
+title: DSC 520 Week 8 Exercise 2
+subtitle: Confidence Intervals
+author: "Dong Woon Kim"
+date: "2025-07-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Compute the average confidence interval for each numeric feature.
+
+```{r} 
+
+df <- read.csv("G:/My Drive/3. Informatyki (MSDS)/Data Science/R/dsc_520_week_8_correlation_confidence_intervals/travel_insurance.csv")
+duration <- df$Duration
+sales <- df$Net.Sales
+df$Amount <- df$Commision..in.value. # not necessary but cleaner column header
+amount <- df$Amount
+View(df)
+
+a <- duration
+b <- sales
+c <- amount
+?qt()
+
+# custom function to calculate confidence intervals of an array of values
+
+ci <- function(df) {
+  x <- mean(df)
+  s <- sd(df)
+  n <- length(df)
+  a <- qt(0.975,n-1) * (s/sqrt(n))
+  t <- qt(0.975,n-1)
+  lower <- x - a
+  upper <- x + a
+  return(c(lower,upper))
+}
+
+ci(a) # 95% CI of Duration
+ci(b) # 95% CI of Net Sales
+ci(c) # 95% CI of Commission
+```
+
+Compute the t-scores for each numeric feature.
+
+```{r}
+
+t.score <- function(df) {
+  x <- mean(df)
+  s <- sd(df)
+  n <- length(df)
+  a <- qt(0.975,n-1) * (s/sqrt(n))
+  return(a)
+}
+
+t.score(a)
+t.score(b)
+t.score(c)
+```
+
+What do those values mean logically?
+
+The 95% confidence interval gives you the range (upper and lower values) within which future samples are likely to contain the true value.

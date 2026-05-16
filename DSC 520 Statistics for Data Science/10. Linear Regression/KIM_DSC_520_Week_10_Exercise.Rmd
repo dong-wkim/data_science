@@ -1,0 +1,146 @@
+---
+title: DSC 520 Week 10 Exercise
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE, results='hide')
+```
+
+```{r packages}
+packages <- c(
+	"tidyverse",
+	"ggplot2",
+	"car",
+	"dplyr"
+)
+
+for (package in packages) {
+  if (!requireNamespace(package, quietly = TRUE))
+    install.packages(package)
+}
+
+lapply(packages, library, character.only=TRUE)
+```
+
+
+
+## R
+
+```{r Exercises, echo=TRUE}
+
+# 1. Load dataset.
+
+housing_data <- read.csv("housing.csv")
+View(housing_data)
+
+df <- housing_data
+
+
+# 2. Turn all columns into variables and load them into the global environment using my custom function "d.vectorize".
+
+columns <- c(	
+	"price",
+	"area",
+	"bedrooms",
+	"bathrooms",
+	"stories",
+	"mainroad",
+	"guestroom",
+	"basement",
+	"hotwaterheating",
+	"airconditioning",
+	"parking",
+	"prefarea",
+	"furnishingstatus"
+)
+
+d.vectorize <- function(x,y) {
+  list2env(setNames(lapply(x, function(col) na.omit(y[[col]])),x), envir= .GlobalEnv)
+}
+
+d.vectorize(columns, df)
+
+
+
+# 1. Explain any transformations or modifications you made to the dataset.
+
+price <- price/1000
+area <- area/1000
+
+# 2. Create a linear regression model where "area" infers price (i.e., area is used to predict price).
+
+
+data <- data.frame(
+  y = price,
+  x1 = area)
+
+
+
+model1 <- lm(y ~ x1, data=data)
+plot(x=data$x1, y=data$y, ylab = "Price (per $1,000)", xlab="Area (per 1,000 sq. ft.)")
+abline(model1,col="red")
+
+# 3. Get a summary of your first model and explain your results (e.g., R2, adj R2, RMSE, MSE).
+
+summary(model1)
+
+# 4. Get the residuals of your model (you can use 'resid' or 'residuals' functions) and plot them. What does the plot tell you about your predictions?
+
+res <- resid(model1)
+plot(res)
+abline(h=0,col="blue")
+
+# 5. Use a qq plot to observe your residuals. Do your residuals meet the normality assumption?
+
+x <- seq_along(res)
+qqplot(y=res,x=x,plot.it=TRUE,ylab="Residuals",xlab="Index")
+
+# 6. Create a linear regression model that uses multiple predictor variables to predict Sale Price (feel free to derive new predictors from existing ones). Explain why you think each of these variables may add explanatory value to the model.
+
+rooms <- (bedrooms + bathrooms)
+furnishingstatus <- as.factor(furnishingstatus)
+
+data <- data.frame(
+  y = price,
+  x1 = area,
+  x2 = rooms,
+  x3 = furnishingstatus
+)
+
+model1 <- lm(y ~ x1,data=data)
+model2 <- lm(y ~ x1 + x2, data=data)
+model3 <- lm(y ~ x1 + x2+ x3, data=data)
+
+# 7. Get a summary of this GLM and explain your results.
+
+summary(model2)
+summary(model3)
+
+# 8. Get the residuals of your second model (you can use 'resid' or 'residuals' functions) and plot them. What does the plot tell you about your predictions?
+
+res2 <- resid(model2)
+plot(res2)
+abline(h=0,col="blue")
+
+res3 <- resid(model3)
+plot(res3)
+abline(h=0,col="blue")
+
+# 9. Use a qq plot to observe your residuals. Do your residuals meet the normality assumption?
+
+x_2 <- seq_along(res2)
+qqplot(y=res2,x=x_2,plot.it=TRUE,ylab="Residuals",xlab="Index")
+
+x_3 <- seq_along(res3)
+qqplot(y=res3,x=x_3,plot.it=TRUE,ylab="Residuals",xlab="Index")
+
+# 10. Compare the results (e.g., R2, adj R2, RMSE, MSE) between your first and second model.
+
+summary(model1)
+summary(model3)
+
+# 11. Does your new model show an improvement over the first? To confirm a 'significant' improvement between the second and first model, use ANOVA to compare them. What are the results?
+
+anova(model1,model2,model3)
+
+```

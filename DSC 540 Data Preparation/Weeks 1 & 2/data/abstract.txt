@@ -1,0 +1,56 @@
+1. Am J Sports Med. 2026 Mar;54(4):955-968. doi: 10.1177/03635465251380285. Epub 
+2026 Jan 12.
+
+Risk Factors for Knee Osteoarthritis After Anterior Cruciate Ligament 
+Reconstruction: A Systematic Review and Meta-analysis.
+
+Zhang L(1), Xu T(1), Xiong Q(1), Hu Y(1), Fan L(1), Fu W(1).
+
+Author information:
+(1)Sports Medicine Center, Department of Orthopedic Surgery/Orthopedic Research 
+Institute, West China Hospital, Sichuan University, Chengdu, China.
+
+BACKGROUND: The incidence of knee osteoarthritis (KOA) after anterior cruciate 
+ligament (ACL) reconstruction (ACLR) is high, posing significant challenges to 
+long-term joint health and overall quality of life. Identifying and 
+understanding the risk factors associated with postoperative KOA are crucial for 
+improving surgical outcomes and guiding preventive strategies.
+PURPOSE: To perform a systematic review and meta-analysis to investigate the 
+risk factors for KOA after ACLR.
+STUDY DESIGN: Systematic review; Level of evidence, 4.
+METHODS: A systematic review with meta-analysis was performed according to the 
+PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses) 
+guidelines. There were 3 databases (PubMed, Embase, and Web of Science) searched 
+from inception to September 2024. All prospective and retrospective studies 
+investigating the risk factors for KOA after ACLR were considered. The odds 
+ratio (OR) or weighted mean difference (WMD) was calculated for potential risk 
+factors if ≥2 studies assessed the same risk factor. Variables that could not be 
+subjected to a meta-analysis were qualitatively analyzed.
+RESULTS: A total of 39 studies met the inclusion criteria, with a combined 
+sample size of 46,545, and 35 studies were subjected to a meta-analysis. The 
+incidence of KOA after ACLR ranged from 2.34% to 100.00%, with a mean incidence 
+of 8.29%. Overall, 9 factors were associated with an increase in the risk of KOA 
+after ACLR: older age (WMD, 3.30 [95% CI, 2.33-4.28]), male sex (OR, 1.41 [95% 
+CI, 1.14-1.74]), a higher body mass index (WMD, 1.31 [95% CI, 0.34-2.27]), 
+bone-patellar tendon-bone autografts (OR, 1.66 [95% CI, 1.11-2.50]), a longer 
+interval between ACL injury and surgery (WMD, 1.09 [95% CI, 0.55-1.63]), 
+meniscectomy (OR, 2.42 [95% CI, 2.01-2.91]), meniscal injuries (OR, 3.35 [95% 
+CI, 2.06-5.45]), additional injuries (OR, 3.65 [95% CI, 1.74-7.68]), and 
+chondral lesions at the time of ACLR (OR, 2.15 [95% CI, 1.43-3.24]).
+CONCLUSION: Older age, male sex, a higher body mass index, bone-patellar 
+tendon-bone autografts, meniscectomy, a longer interval between ACL injury and 
+surgery, and concomitant other injuries (meniscal or chondral) may increase the 
+risk of KOA after ACLR. An increased awareness of relevant risk factors and 
+targeted preventive strategies for modifiable risk factors can effectively 
+reduce the incidence of KOA after ACLR.
+
+DOI: 10.1177/03635465251380285
+PMID: 41521732 [Indexed for MEDLINE]
+
+Conflict of interest statement: One or more of the authors has declared the 
+following potential conflict of interest or source of funding: This study was 
+funded by the Science and Technology Projects of Xizang Autonomous Region 
+(XZ202301ZY0046G) and the Natural Science Foundation of Sichuan Province 
+(25QNJJ3423). AOSSM checks author disclosures against the Open Payments Database 
+(OPD). AOSSM has not conducted an independent investigation on the OPD and 
+disclaims any liability or responsibility relating thereto.

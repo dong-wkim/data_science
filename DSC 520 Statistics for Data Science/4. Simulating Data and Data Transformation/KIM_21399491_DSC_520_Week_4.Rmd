@@ -1,0 +1,189 @@
+---
+title: "Week 4 Exercise"
+author: "Dong Woon Kim"
+date: "2025-06-29"
+output: 
+  html_document:
+    code_folding: show
+    results: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, results='hide')
+```
+
+<!-- install and load packages -->
+```{r install packages, echo=TRUE, include=FALSE, results='hide'}
+setwd("~/R")
+packages <- c("rmarkdown", "readr")
+lapply(packages,library, character.only = TRUE)
+
+```
+
+**Using this dataset, perform the following transformations:**
+
+- [x] Scale the numerical data.**
+- [x] Fix any skew as best you can.**
+- [x] Normalize any columns not normalized using any of the available techniques (don’t use the same technique twice).
+- [ ] Using data simulation, fill in the missing values for the release_date variable (not the others).
+- [x] Be sure to thoroughly document your logic (why you’re doing things) and commentary (e.g., your view of the results) using Markdown.
+
+<!-- transformations:
+
+- [x] A. z-scoring
+- [x] B. min-max scaling
+- [x] C. log
+- [x] D. square-rooting
+- [x] E. Fisher-z
+- [ ] tiedrank
+
+-->
+
+<!-- custom functions:
+
+I. d.vectorize
+II. d.lapply
+
+-->
+
+<!-- 
+
+apparently the de facto way to turn any non-Gaussian distribution to one that is Gaussian is to:
+
+1. rank-transform, then
+2. min-max scale, then
+3. Fisher-z transform
+
+idk if true, but let's try.
+
+--> 
+
+
+```{r}
+
+# import and load dataset
+df <- read.csv("./week_4.csv")
+columns <- c("critic_score", "total_sales", "na_sales", "jp_sales", "pal_sales", "other_sales")
+
+# I. d.vectorize
+# custom function to extract and vectorize columns of interest and load them as variables into the global environment according to their column names, where:
+# x = columns
+# y = df
+
+d.vectorize <- function(x,y) {
+  list2env(setNames(lapply(x, function(col) na.omit(y[[col]])),x), envir= .GlobalEnv)
+}
+
+d.vectorize(columns,df)
+
+# II. d.lapply
+# custom function to run a function across a list of data frames with one line of code, where:
+# x = columns
+# y = function
+# z = prefix
+
+d.lapply <- function(x,y,z) {
+  for (name in x) {
+    vec <- get(name, envir = .GlobalEnv)
+    vec.trans <- y(vec)
+    assign(paste0(z,name), vec.trans, envir = .GlobalEnv)
+    }
+}
+
+# III. d.zscore
+# custom function for z-scoring around the mean where:
+# x = df
+# y = column_name
+
+d.zscore <- function(x) {
+  mean.x <- mean(x, na.rm = TRUE)
+  sd.x <- sd(x, na.rm = TRUE)
+  z.x <- (x - mean.x)/sd.x
+  return(z.x)
+}
+
+
+# III. d.minmax
+# min-max scaling, where:
+# x = df
+# a = lower limit (default = 0)
+# b = upper limit (default = 1)
+
+d.minmax <- function(x, a=0,b=1) {
+  min.x <- min(x)
+  max.x <- max(x)
+  range.x <- max.x - min.x
+  minmax.x <- (x - min.x)/range.x 
+  scale <- (b - a) + a
+  minmax.x.s <-  minmax.x * scale
+  
+  return(minmax.x.s)
+}
+
+# IV. Fisher-z (practically just a name change)
+d.Fisherz <- function(x) {
+  x.Fisherz <- atanh(x)
+
+  return(x.Fisherz)
+}
+
+d.lapply(columns,log,"log." )
+d.lapply(columns,d.zscore,"z.")
+d.lapply(columns,d.minmax,"minmax.")
+d.lapply(columns,rank,"rank.")
+d.lapply(columns,sqrt,"sqrt.")
+transf.critic_scores <- d.Fisherz(d.minmax(rank(critic_score),-0.999,0.999))
+transf.total_sales <- d.Fisherz(d.minmax(rank(total_sales),-0.999,0.999))
+transf.na_sales <- d.Fisherz(d.minmax(rank(na_sales),-0.999,0.999))
+transf.jp_sales <- d.Fisherz(d.minmax(rank(jp_sales),-0.999,0.999))
+transf.pal_sales <- d.Fisherz(d.minmax(rank(pal_sales),-0.999,0.999))
+transf.other_sales <- d.Fisherz(d.minmax(rank(other_sales),-0.999,0.999))
+
+d.skew <- function(df) {
+  x <- mean(df, na.rm=TRUE)
+  y <- median(df, na.rm=TRUE)
+  z <- sd(df, na.rm=TRUE)
+  skew <- 3*(x-y)/z
+  return(skew)
+}
+
+# skewness and transformations 
+
+# critic score
+d.skew(critic_score)
+d.skew(z.critic_score)
+d.skew(minmax.critic_score)
+d.skew(rank.critic_score)
+d.skew(sqrt.critic_score)
+d.skew(transf.critic_scores)
+
+# total sales
+d.skew(total_sales)
+d.skew(z.total_sales)  
+d.skew(transf.total_sales)
+
+# na sales
+d.skew(na_sales)
+d.skew(z.na_sales)
+d.skew(transf.na_sales)
+
+# jp sales
+d.skew(jp_sales)
+d.skew(z.jp_sales)
+d.skew(transf.jp_sales)
+
+# pal sales
+d.skew(pal_sales)
+d.skew(z.pal_sales)
+d.skew(transf.pal_sales)
+
+# other sales
+d.skew(z.other_sales)
+d.skew(z.other_sales)
+d.skew(transf.other_sales)
+
+# note to professor: I don't know what I'm doing wrong here, I applied the transformations according to the course text book section 6.6.4 on page 224 but the skewness is not corrected and the histograms do not show a normally distributed curve. Can you please take a look and tell me either if something is wrong, or why a non-Gaussian to Gaussian set of transformations can result in skewed and non-normally distributed histogram?
+
+```
+
+

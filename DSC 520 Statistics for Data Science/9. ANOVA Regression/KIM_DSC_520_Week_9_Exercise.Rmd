@@ -1,0 +1,96 @@
+---
+title: DSC 520 Week 9 Exercise
+subtitle: ANOVA Regression
+---
+
+<!-- Comments
+1. figure out how to create either R chunk snippets for quick shortcut copy and paste or
+2. latex-like preambles for setup configuration for installing packages and loading libraries
+-->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+packages <- c(
+	"tidyverse",
+	"ggplot2",
+	"car",
+	"dplyr",
+	"welchADF"
+)
+
+for (package in packages) {
+  if (!requireNamespace(package, quietly = TRUE))
+    install.packages(package)
+}
+
+lapply(packages, library, character.only=TRUE)
+
+```
+
+**Week 9 Exercise**
+Using the travel insurance dataset from the prior week, 
+1. Create one-way ANOVA.
+2. Create two-way ANOVA. 
+3. Use AIC to determine which one is better for the dataset.
+
+
+```{r}
+# Import dataset
+df <- read.csv("travel_insurance.csv")
+
+# Rename and create data frame with columns of interest
+df <- df %>%
+  rename(Amount = Commision..in.value.) %>%
+  select(Duration, Net.Sales, Amount,Agency.Type,Agency)
+
+# Store column names as variables in global environment
+d.vectorize <- function(x,y) {
+  list2env(setNames(lapply(x, function(col) na.omit(y[[col]])),x), envir= .GlobalEnv)
+}
+
+
+
+# Task 1: Create One-way ANOVA
+
+df$Agency.Type <- as.factor(df$Agency.Type)
+df$Agency <- as.factor(df$Agency)
+
+columns <- c("Duration","Net.Sales","Amount","Agency.Type","Agency")
+d.vectorize(columns,df)
+
+# with(df, leveneTest(Net.Sales,Agency.Type))
+# with(df, leveneTest(Amount,Agency.Type))
+# with(df, leveneTest(Net.Sales,Agency))
+# with(df, leveneTest(Amount,Agency))
+
+oneway.amount <- lm(Amount ~ Agency.Type, data = df)
+oneway.sales <- lm(Net.Sales ~ Agency.Type, data = df)
+
+# two-way ANOVA
+
+res1 <- lm(Amount ~ Agency * Agency.Type, data=df) # two-way
+res2 <- lm(Net.Sales ~ Agency * Agency.Type, data=df)
+
+twoway.amount <- lm(res1,data=df)
+twoway.sales <- lm(res2,data=df)
+twoway.amount
+twoway.sales
+summary(twoway.amount)
+summary(twoway.sales)
+
+# Question 3: AIC
+
+AIC.amount <- AIC(oneway.amount,twoway.amount)
+AIC.sales <- AIC(oneway.sales,twoway.sales)
+AIC.amount
+AIC.sales
+summary(AIC.amount)
+summary(AIC.sales)
+
+```
+
+One-way ANOVA using Agency.Type as the predictor is improved by adding a second interacting predictor Agency and using two-way ANOVA for both Net.Sales and Commission Amount, as the AIC decreases in value with the addition of a second predictor into the model. Therefore, within this particular data set, two-way ANOVA is better than one-way ANOVA in predicting independent variables (Net.Sales and Amount) with the use of dependent variables (Agency.Type and Agency) as predictors.
+
+
+```

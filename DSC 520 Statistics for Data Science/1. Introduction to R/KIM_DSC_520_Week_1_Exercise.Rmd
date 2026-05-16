@@ -1,0 +1,512 @@
+---
+title: DSC 520 Week 1 Exercise
+due: 2025-12-08 7:00 CET
+---
+## Checklist
+
+- [x] R Tutorial
+- [x] R Data Structures
+- [x] R Graphics
+- [x] R Statistics
+
+## R Tutorial
+
+```{r}
+"Hello World!"
+
+5
+10
+25
+
+5 + 5
+
+"Hello World!"
+print("Hello World!")
+
+for (x in 1:10) {
+  print(x)
+}
+
+# This is a comment
+"Hello World!"
+
+"Hello World!" # This is a comment
+
+# "Good morning!"
+"Good night!"
+
+# This is a comment
+# written in
+# more than just one line
+"Hello World!"
+
+name <- "Danny"
+age <- 31
+
+name # output "Danny"
+age # output 31
+print(name)
+
+text <- "awesome"
+paste("R is", text)
+
+text1 <- "R is"
+text2 <- "awesome"
+
+paste(text1, text2)
+
+num1 <- 5
+num2 <- 10
+num1 + num2 
+
+var1 <- var2 <- var3 <- "Orange"
+var1
+var2
+var3
+
+myvar <- my_var <- myVar <- MYVAR <- myvar2 <- .myvar <- "Danny"
+# variable names cannot:
+# start with a number
+# contain a hyphen "-", space " ", or a "@"
+# begin with underscore "_"
+# be a binary operator (TRUE, FALSE)
+
+# numeric 
+x <- 10.5
+class(x)
+
+# integer
+x <- 1000L
+class(x)
+
+# complex
+x <- 9i + 3
+class(x)
+
+# character/string
+x <- "R is exciting"
+class(x)
+
+# logical/boolean
+x <- TRUE
+class(x)
+
+# R Math
+
+x <- 10.5 # numeric
+y <- 10L # integer
+z <- 1i # complex
+
+a <- as.numeric(x)
+b <- as.integer(y)
+
+x <- c(5, 10, 15)
+max(x)
+min(x)
+sqrt(16)
+abs(-4.7)
+ceiling(1.4)
+floor(1.4)
+
+"hello"
+'hello'
+
+str <- "This
+is 
+a
+multi-line
+string"
+
+str # outputs using \n for line breaks
+cat(str) # maintains line breaks
+
+nchar(str)
+grepl("H", str)
+
+str1 <- "Hello"
+str2 <- "World"
+
+paste(str1, str2)
+
+
+# Escape characters: \\, \n, \r, \t, \b
+
+str <- "We are the so-called \"Vikings\", from the north."
+
+str
+cat(str)
+
+# Logical/Boolean values: >, ==, <
+
+a <- 420
+b <- 69
+c <- 80085
+
+if (b > a) {
+  print('b is greater than a')
+} else if (a == b) {
+  print('a and b are equal')
+} else {
+  print('b is not greater than a')
+  if (a == 420) {
+    print('420 Blaze it haha')
+  }
+}
+
+# Operators: +, -, *, /, ^, %%, %/%, ==, !=, >, <, >=, <=, &, &&, |, ||, !, :, %in%, %*%
+
+my_var <<- 3 # global assigner
+
+a <- 420
+b <- 69
+c <- 80085
+
+if (a < b | a < c) {
+  print('Kill yourself, No one likes you')
+} else {
+  print('Don\'t kill youself, Everyone likes you')
+}
+
+
+i <- 1
+while (i < 6) {
+  print(i)
+  i <- i + 1
+  if (i == 4) {
+    break
+  }
+  if (i == 4) {
+    next
+  }
+  print(i)
+}
+
+for (x in 1:10) {
+ print(x) 
+}
+
+fruits <- list('apple', 'banana', 'cherry')
+
+for (x in fruits) {
+  print(x)
+}
+
+dice <- c(1, 2, 3, 4, 5, 6)
+
+for (x in dice) {
+  print(x)
+}
+
+fruits <- list('apple', 'banana', 'cherry')
+
+for (x in fruits) {
+  if (x == 'cherry') {
+    break
+  }
+  print(x)
+}
+
+for (x in fruits) {
+  if (x == 'banana') {
+    next
+  }
+  print(x)
+}
+
+dice <- 1:6
+
+for(x in dice) {
+  if (x == 6) {
+    print(paste("The dice number is", x, "Yahtzee!"))
+  } else {
+    print(paste("The dice number is", x, "Not Yahtzee"))
+  }
+}
+
+adj <- list("red", "big", "tasty")
+
+fruits <- list("apple", "banana", "cherry")
+  for (x in adj) {
+    for (y in fruits) {
+      print(paste(x, y))
+  }
+}
+
+my_function <- function(x) {
+  print('Hello WOrld!')
+}
+
+my_function()
+
+```
+
+
+
+
+
+## R Data Structures
+
+```{r}
+fruits <- c('banana', 'apple', 'orange')
+
+fruits
+
+thislist <- list('apple', 'banana', 50, 100)
+thislist
+
+thismatrix <- matrix(c(1,2,3,4,5,6), nrow = 3, ncol = 2)
+thismatrix
+
+thisarray <- c(1:24)
+thisarray
+
+multiarray <- array(thisarray, dim = c(4, 3, 2))
+multiarray
+
+df <- data.frame(
+  training = c('power', 'respect', 'banana'),
+  pulse = c(100, 120, 150),
+  duration = c(60, 30, 45)
+)
+
+df
+
+# Lists
+
+thislist <- c('power', 'respect', 'banana')
+thislist[1] <- 'blackcurrent'
+
+thislist
+length(thislist)
+
+'apple' %in% thislist # Check if 'apple' is in list vector
+append(thislist, 'orange')
+append(thislist, 'I\'ve Dong-enough haha', after = 2)
+
+newlist <- thislist[-1]
+newlist
+
+
+thislist <- list('apple', 'banana', 'cherry', 'kiwi', 'melon', 'mango')
+(thislist)[2:5]
+
+for (x in thislist) {
+  print(x)
+}
+
+list1 <- list('a', 'b', 'c')
+list2 <- list(1, 2, 3)
+list3 <- c(list1, list2)
+
+list3
+
+# R Matrices
+
+thismatrix <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 3, ncol = 2)
+thismatrix
+
+thismatrix[2,]
+thismatrix[c(1,2),]
+
+newmatrix <- cbind(thismatrix, c('strawberry', 'blueberry', 'raspberry'))
+newmatrix <- rbind(thismatrix, c('strawberry', 'blueberry', 'raspberry'))
+newmatrix
+
+thismatrix <- thismatrix[-c(1), -c(1)]
+'apple' %in% thismatrix
+
+dim(thismatrix)
+length(thismatrix)
+
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange"), nrow = 2, ncol = 2)
+
+
+for (rows in 1:nrow(thismatrix)) {
+  for (columns in 1:ncol(thismatrix)) {
+    print(thismatrix[rows, columns])
+  }
+}
+
+# Arrays
+
+thisarray <- c(1:24)
+thisarray
+
+multiarray <- array(thisarray, dim = c(4, 3, 2))
+
+multiarray[2, 3, 2]
+multiarray[c(1),,1]
+multiarray[, c(1), 1]
+dim(multiarray)
+length(multiarray)
+
+for(x in multiarray){
+  print(x)
+}
+
+# Data Frames
+
+df <- data.frame(
+  Training = c('Strength', 'Stamina', 'Other'),
+  Pulse = c(100, 120, 150),
+  Duration = c(60, 30, 45)
+)
+
+df
+summary(df)
+df[['Training']]
+df$Training
+
+new_row_df <- rbind(df, c('Strength', 110, 110))
+new_row_df
+
+new_col_df <- cbind(df, Steps = c(1000, 6000, 2000))
+new_col_df
+
+df_new <- df[-c(1), -c(1)]
+df_new
+
+dim(df)
+ncol(df)
+nrow(df)
+length(df)
+
+df1 <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+df2 <- data.frame (
+  Training = c("Stamina", "Stamina", "Strength"),
+  Pulse = c(140, 150, 160),
+  Duration = c(30, 30, 20)
+)
+
+df3 <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+df4 <- data.frame (
+  Steps = c(3000, 6000, 2000),
+  Calories = c(300, 400, 300)
+)
+
+new_df1 <- rbind(df1, df2)
+new_df2 <- cbind(df3, df4)
+
+new_df1
+new_df2
+
+# Factors
+
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"))
+levels(music_genre)
+length(music_genre)
+music_genre[3] <- "Pop"
+music_genre[3]
+
+
+```
+  
+## R Graphics
+
+```{r}
+# R Plot
+
+plot(1, 3)
+plot(c(1, 8), c(3, 10))
+plot(c(1, 2, 3, 4, 5), c(3, 7, 8, 9, 12))
+
+x <- c(1, 2, 3, 4, 5)
+y <- c(3, 7, 8, 9, 12)
+
+plot(x, y)
+
+plot(1:10)
+plot(1:10, type = 'l')
+plot(1:10, main="My Graph", xlab="The x-axis", ylab="The y axis")
+plot(1:10, col="red", cex = 2, pch = 25) # pch = 0-25
+
+# R Line
+
+plot(1:10, type="l", col = 'blue', lwd = 2, lty = 3) # lty = 0-6
+
+line1 <- c(1, 2, 3, 4, 5, 10)
+line2 <- c(2, 5, 7, 8, 9, 10)
+plot(line1, type = 'l', col = 'blue')
+lines(line2, type = 'l', col = 'red')
+
+# R Scatterplot
+
+x <- c(5,7,8,7,2,2,9,4,11,12,9,6)
+y <- c(99,86,87,88,111,103,87,94,78,77,85,86)
+
+plot(x, y, main = 'Observation of Cars', xlab = 'Car Age', ylab = 'Car Speed')
+
+x1 <- c(5,7,8,7,2,2,9,4,11,12,9,6)
+y1 <- c(99,86,87,88,111,103,87,94,78,77,85,86)
+x2 <- c(2,2,8,1,15,8,12,9,7,3,11,4,7,14,12)
+y2 <- c(100,105,84,105,90,99,90,95,94,100,79,112,91,80,85)
+
+plot(x1, y1, main="Observation of Cars", xlab="Car age", ylab="Car speed", col="red", cex=2)
+points(x2, y2, col="blue", cex=2)
+
+# R Pie Chart
+
+x <- c(10, 20, 30, 40)
+mylabel <- c("Apples", "Bananas", "Cherries", "Dates")
+colors <- c("blue", "yellow", "green", "black")
+pie(x, label = mylabel, main = "Pie Chart", col = colors)
+legend("bottomright", mylabel, fill = colors)
+
+# R Bars
+
+x <- c('A', 'B', 'C', 'D')
+y <- c(2, 4, 6, 8)
+barplot(y, names.arg = x, col = 'red', density = 10, width = c(1, 2, 3, 4), horiz = TRUE)
+```
+
+
+## R Statistics
+
+```{r}
+# R Data Set
+
+mtcars
+?mtcars
+
+df <- mtcars
+dim(df)
+names(df)
+rownames(df)
+df$cyl
+
+sort(df$cyl)
+summary(df)
+
+# R Max and Min
+
+max(df$hp)
+min(df$hp)
+
+which.max(df$hp)
+which.min(df$hp)
+rownames(df)[which.max(df$hp)]
+rownames(df)[which.min(df$hp)]
+
+
+# R Mean Median Mode
+
+mean(df$wt)
+median(df$wt)
+names(sort(-table(df$wt)))[1]
+
+# R Percentiles
+
+quantile(df$wt, c(0.75))
+quantile(df$wt)
+```
+
