@@ -1,11 +1,16 @@
-```python
+```markdown
 # DSC 540 Weeks 9 & 10 Exercise
+```
 
+```markdown
 ## Activity 7.01 Extracting the top 100 e-books from Project Gutenberg
-
 ```
 
 ```python
+
+
+
+```
 The Data Wrangling Workshop: Activity 7.02, page 390
 Connect to an API of your choice and do a simple data pull - you can use any API - except the API you have selected for your project.
 In previous versions of this course we have always used Twitter, but with recent organizational changes at Twitter, it has become increasingly difficult to access the free APIs available at Twitter. You are more than welcome to try to use Twitter's API for this portion of the assignment, but please note, there has been some inconsistency experienced when following along with their documentation posted.
