@@ -1,11 +1,37 @@
-```python
 # DSC 540 Weeks 9 & 10 Exercise
+
 
 ## Activity 7.01 Extracting the top 100 e-books from Project Gutenberg
 
+```python
+import ipywidgets as widgets
+import requests
+from bs4 import BeautifulSoup as bs4
+import re
+
+w_url = widgets.Text(placeholder = "Copy and paste the url of the website", description = "URL")
+
+button = widgets.Button(description = "Submit")
+output = widgets.Output()
+
+def function(button):
+    output.clear_output()
+    
+    if w_url.value != "":
+        url = str(w_url.value)
+        
+        response = requests.get(url)
+        text = response.text
+        html = bs4(text, 'html.parser')
+    print(html)
+    
+button.on_click(function)
+
+title = display(widgets.HTML(value = "Simple scraper"))
+display(title, widgets.HBox(children = [w_url, button]))
+display(output)
 ```
 
-```python
 The Data Wrangling Workshop: Activity 7.02, page 390
 Connect to an API of your choice and do a simple data pull - you can use any API - except the API you have selected for your project.
 In previous versions of this course we have always used Twitter, but with recent organizational changes at Twitter, it has become increasingly difficult to access the free APIs available at Twitter. You are more than welcome to try to use Twitter's API for this portion of the assignment, but please note, there has been some inconsistency experienced when following along with their documentation posted.
@@ -18,4 +44,3 @@ Bar
 Histogram
 Density Plot
 Pie Chart
-```
